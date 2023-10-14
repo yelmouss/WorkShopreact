@@ -1,24 +1,40 @@
-import logo from './logo.svg';
+
+import { useEffect, useState } from 'react';
 import './App.css';
+import Header from './components/layout/Header';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './components/pages/Home'
+import About from './components/pages/About'
+import Services from './components/pages/Services'
+import Works from './components/pages/Works'
 
 function App() {
+
+  const [dark, updateDark] = useState(null);
+  const ModeDark = JSON.parse(localStorage.getItem("dark"));
+
+  useEffect(() => {
+    if (ModeDark) {
+      updateDark(ModeDark);
+    }
+  }, [ModeDark]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Header dark={dark} updateDark={updateDark} />
+
+        <Routes>
+          <Route path='/' element={<Home  dark={dark} updateDark={updateDark}/>} />
+          <Route path='/About' element={<About  dark={dark} updateDark={updateDark}/>} />
+          <Route path='/Services' element={<Services  dark={dark} updateDark={updateDark}/>} />
+          <Route path='/Works' element={<Works  dark={dark} updateDark={updateDark}/>} />    
+        </Routes>
+      </BrowserRouter>
+
+
+
+    </>
   );
 }
 
